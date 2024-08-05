@@ -6,3 +6,7 @@ __pycache__/
 
 # Poetry
 poetry.lock
+
+# Tests
+.pytest_cache/
+.coverage
