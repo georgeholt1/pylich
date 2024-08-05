@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "pylich"
+version = "0.1.0"
+description = "A super simple Python utility to check for dead links in a website"
+authors = ["George Holt <george_holt77@yahoo.co.uk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+beautifulsoup4 = "^4.12.3"
+requests = "^2.32.3"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.1"
+black = "^24.8.0"
+isort = "^5.13.2"
+ipython = "^8.26.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
