@@ -113,14 +113,17 @@ def test_print_dead_links(
     checker.print_dead_links()
 
     captured = capsys.readouterr()
+    print(captured.out)
     assert "Dead links:" in captured.out
     assert (
-        "Page URL: http://example.com/page1, Broken Link:"
-        "http://example.com/broken_link, Status Code: 404" in captured.out
+        "Page URL: http://example.com/page1\n"
+        "Broken Link: http://example.com/broken_link\n"
+        "Status Code: 404" in captured.out
     )
     assert (
-        "Page URL: http://example.com/page2, Broken Link:"
-        "http://example.com/broken_link, Status Code: 404" in captured.out
+        "Page URL: http://example.com/page2\n"
+        "Broken Link: http://example.com/broken_link\n"
+        "Status Code: 404" in captured.out
     )
 
 
