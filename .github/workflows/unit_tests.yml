@@ -1,0 +1,27 @@
+name: Unit tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Setup
+      uses: './.github/actions/ci-setup'
+      id: setup
+      with:
+        python-version: '3.x'
+
+    - name: Run unit tests
+      run: poetry run pytest
