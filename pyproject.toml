@@ -6,7 +6,7 @@ authors = ["George Holt <george_holt77@yahoo.co.uk>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 beautifulsoup4 = "^4.12.3"
 requests = "^2.32.3"
 
