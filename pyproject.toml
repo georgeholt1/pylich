@@ -6,7 +6,7 @@ authors = ["George Holt <george_holt77@yahoo.co.uk>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.9"
 beautifulsoup4 = "^4.12.3"
 requests = "^2.32.3"
 
@@ -14,7 +14,7 @@ requests = "^2.32.3"
 flake8 = "^7.1.1"
 black = "^24.8.0"
 isort = "^5.13.2"
-ipython = "^8.26.0"
+ipython = "^7.32.0"
 pre-commit = "^3.8.0"
 pytest = "^8.3.2"
 requests-mock = "^1.12.1"

@@ -13,6 +13,10 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -21,7 +25,7 @@ jobs:
       uses: './.github/actions/ci-setup'
       id: setup
       with:
-        python-version: '3.x'
+        python-version: ${{ matrix.python-version }}
 
     - name: Run unit tests
       run: poetry run pytest
