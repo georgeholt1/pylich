@@ -4,6 +4,15 @@ A super simple Python utility to check for dead links in a website.
 
 ## Installation
 
+
+### From PyPI
+
+```bash
+pip install pylich
+```
+
+### From source
+
 Clone the repository and run the following command:
 
 ```bash
@@ -26,7 +35,7 @@ checker.print_dead_links()
 
 Pull requests are welcome.
 
-Package and dependency management is done using [Poetry](https://python-poetry.org/). To install the dependencies, run:
+Package and dependency management is done using [Poetry](https://python-poetry.org/). To install the dependencies and the package in development mode, run:
 
 ```bash
 poetry install
