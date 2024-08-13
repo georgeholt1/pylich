@@ -1,0 +1,40 @@
+name: Formatting and Linting
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  setup:
+    uses: ./.github/workflows/setup.yml
+
+  formatting:
+    name: Formatting
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run black
+      run: poetry run black --check .
+
+    - name: Run isort
+      run: poetry run isort --check-only .
+
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    needs: setup
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run flake8
+      run: poetry run flake8 .

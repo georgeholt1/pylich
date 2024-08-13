@@ -1,0 +1,31 @@
+name: Setup
+
+on:
+  workflow_call:
+
+jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    outputs:
+      python-version: ${{ steps.setup-python.outputs.python-version }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      id: setup-python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install pipx
+      run: |
+        sudo apt install pipx
+        pipx ensurepath
+
+    - name: Install poetry
+      run: pipx install poetry==1.8.2
+
+    - name: Install dependencies
+      run: poetry install
