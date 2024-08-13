@@ -1,0 +1,26 @@
+name: Publish to PyPI
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup
+      uses: './.github/actions/ci-setup'
+      id: setup
+      with:
+        python-version: '3.x'
+
+    - name: Build
+      run: poetry build
+
+    - name: Publish package to PyPI
+      run: poetry publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
