@@ -26,6 +26,10 @@ runs:
       run: pipx install poetry==1.8.2
       shell: bash
 
+    - name: Set python version
+      run: poetry env use python
+      shell: bash
+
     - name: Install dependencies
       run: poetry install
       shell: bash
