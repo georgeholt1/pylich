@@ -1,0 +1,31 @@
+name: CI setup
+description: 'Set up the CI environment for the repository'
+
+inputs:
+  python-version:
+    description: 'The version of Python to use'
+    required: true
+    default: '3.x'
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      id: setup-python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install pipx
+      run: |
+        sudo apt install pipx
+        pipx ensurepath
+      shell: bash
+
+    - name: Install poetry
+      run: pipx install poetry==1.8.2
+      shell: bash
+
+    - name: Install dependencies
+      run: poetry install
+      shell: bash
