@@ -26,3 +26,5 @@ runs:
 
     - name: Install dependencies
       run: poetry install
+
+      shell: bash
