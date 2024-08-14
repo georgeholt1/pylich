@@ -1,5 +1,10 @@
 # PyLich
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/georgeholt1/pylich/unit_tests.yml)
+![PyPI - Version](https://img.shields.io/pypi/v/pylich)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pylich)
+![GitHub License](https://img.shields.io/github/license/georgeholt1/pylich)
+
 A super simple Python utility to check for dead links in a website.
 
 ## Installation
