@@ -36,8 +36,6 @@ runs:
       with:
         path: ~/.local
         key: ${{ runner.os }}-poetry-${{ env.poetry_version }}
-        restore-keys: |
-          ${{ runner.os }}-poetry-
 
     - name: Install poetry
       if: steps.cache-poetry.outputs.cache-hit != 'true'
@@ -61,8 +59,6 @@ runs:
           **/poetry.lock
           .venv
         key: ${{ runner.os }}-poetry-dependencies-${{ hashFiles('**/pyproject.toml') }}
-        restore-keys: |
-          ${{ runner.os }}-poetry-dependencies-
 
     - name: Install dependencies
       if: steps.cache-poetry-dependencies.outputs.cache-hit != 'true'
