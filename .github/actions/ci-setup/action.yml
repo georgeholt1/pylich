@@ -16,6 +16,7 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
 
+
     - name: Install pipx
       run: |
         sudo apt install pipx
@@ -52,7 +53,7 @@ runs:
       uses: actions/cache@v3
       with:
         path: |
-          ~/.local/share/pypoetry/virtualenvs
+          ~/.local
           **/poetry.lock
         key: ${{ runner.os }}-poetry-dependencies-${{ hashFiles('**/pyproject.toml') }}
         restore-keys: |
