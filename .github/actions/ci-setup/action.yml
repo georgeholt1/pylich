@@ -55,6 +55,7 @@ runs:
         path: |
           ~/.local
           **/poetry.lock
+          .venv
         key: ${{ runner.os }}-poetry-dependencies-${{ hashFiles('**/pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-poetry-dependencies-
