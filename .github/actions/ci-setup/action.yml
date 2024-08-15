@@ -22,14 +22,43 @@ runs:
         pipx ensurepath
       shell: bash
 
+    - name: Read Poetry Version
+      id: read-poetry-version
+      run: |
+        poetry_version=$(cat .github/actions/ci-setup/config.yml | grep poetry_version | awk '{print $2}')
+        echo "poetry_version=$poetry_version" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Cache Poetry
+      id: cache-poetry
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry-${{ env.poetry_version }}
+        restore-keys: |
+          ${{ runner.os }}-poetry-
+
     - name: Install poetry
-      run: pipx install poetry==1.8.2
+      if: steps.cache-poetry.outputs.cache-hit != 'true'
+      run: pipx install poetry==${{ env.poetry_version }}
       shell: bash
 
     - name: Set python version
       run: poetry env use python
       shell: bash
 
+    - name: Cache Poetry Dependencies
+      id: cache-poetry-dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.local/share/pypoetry/virtualenvs
+          **/poetry.lock
+        key: ${{ runner.os }}-poetry-dependencies-${{ hashFiles('**/pyproject.toml') }}
+        restore-keys: |
+          ${{ runner.os }}-poetry-dependencies-
+
     - name: Install dependencies
+      if: steps.cache-poetry-dependencies.outputs.cache-hit != 'true'
       run: poetry install
       shell: bash
