@@ -34,7 +34,7 @@ runs:
       id: cache-poetry
       uses: actions/cache@v3
       with:
-        path: ~/.cache/pypoetry
+        path: ~/.local
         key: ${{ runner.os }}-poetry-${{ env.poetry_version }}
         restore-keys: |
           ${{ runner.os }}-poetry-
