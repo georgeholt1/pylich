@@ -42,6 +42,10 @@ runs:
       run: pipx install poetry==${{ env.poetry_version }}
       shell: bash
 
+    - name: Add poetry to PATH
+      run: echo "export PATH=$PATH:$HOME/.local/bin" >> $GITHUB_ENV
+      shell: bash
+
     - name: Configure Poetry
       run: poetry config virtualenvs.in-project true
       shell: bash
