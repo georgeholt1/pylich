@@ -19,6 +19,7 @@ runs:
 
     - name: Install pipx
       run: |
+        sudo apt update
         sudo apt install pipx
         pipx ensurepath
       shell: bash
@@ -43,7 +44,7 @@ runs:
       shell: bash
 
     - name: Add poetry to PATH
-      run: echo "export PATH=$PATH:$HOME/.local/bin" >> $GITHUB_ENV
+      run: echo "$HOME/.local/bin" >> $GITHUB_PATH
       shell: bash
 
     - name: Configure Poetry
