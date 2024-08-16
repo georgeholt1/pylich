@@ -36,8 +36,7 @@ runs:
       uses: actions/cache@v3
       with:
         path: |
-          ~/.cache/pipx
-          ~/.local/bin
+          /usr/local/bin
           /opt/pipx_bin
         key: ${{ runner.os }}-poetry-${{ env.poetry_version }}
 
