@@ -20,6 +20,9 @@ pytest = "^8.3.2"
 requests-mock = "^1.12.1"
 coverage = "^7.6.1"
 
+[tool.poetry.scripts]
+pylich = "pylich.cli:main"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
