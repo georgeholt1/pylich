@@ -31,11 +31,16 @@ runs:
         echo "poetry_version=$poetry_version" >> $GITHUB_ENV
       shell: bash
 
+    - name: Print poetry installation location
+      run: |
+        echo "Poetry is installed at $(which poetry)"
+      shell: bash
+
     - name: Cache Poetry
       id: cache-poetry
       uses: actions/cache@v3
       with:
-        path: $HOME/.local/bin
+        path: ~/.cache/pipx
         key: ${{ runner.os }}-poetry-${{ env.poetry_version }}
 
     - name: Install poetry
