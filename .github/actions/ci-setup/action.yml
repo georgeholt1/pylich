@@ -31,6 +31,15 @@ runs:
         echo "poetry_version=$poetry_version" >> $GITHUB_ENV
       shell: bash
 
+    - name: Cache pipx and poetry
+      id: cache-pipx-and-poetry
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/pipx
+          ~/.local/bin
+          /opt/pipx_bin
+
     - name: Cache Poetry
       id: cache-poetry
       uses: actions/cache@v3
@@ -41,11 +50,6 @@ runs:
     - name: Install poetry
       if: steps.cache-poetry.outputs.cache-hit != 'true'
       run: pipx install poetry==${{ env.poetry_version }}
-      shell: bash
-
-    - name: Print poetry installation location
-      run: |
-        echo "Poetry is installed at $(which poetry)"
       shell: bash
 
     - name: Add poetry to PATH
