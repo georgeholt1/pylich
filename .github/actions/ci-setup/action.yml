@@ -16,14 +16,6 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
 
-
-    - name: Install pipx
-      run: |
-        sudo apt update
-        sudo apt install pipx
-        pipx ensurepath
-      shell: bash
-
     - name: Read Poetry Version
       id: read-poetry-version
       run: |
@@ -31,52 +23,30 @@ runs:
         echo "poetry_version=$poetry_version" >> $GITHUB_ENV
       shell: bash
 
-    - name: Cache pipx and poetry
-      id: cache-pipx-and-poetry
-      uses: actions/cache@v3
+    - name: Cache poetry
+      id: cache-poetry
+      uses: actions/cache@v4
       with:
-        path: |
-          /usr/local/bin
-          /opt/pipx_bin
+        path: ~/.local
         key: ${{ runner.os }}-poetry-${{ env.poetry_version }}
-
-    # - name: Cache Poetry
-    #   id: cache-poetry
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: ~/.cache/pipx
-    #     key: ${{ runner.os }}-poetry-${{ env.poetry_version }}
 
     - name: Install poetry
       if: steps.cache-poetry.outputs.cache-hit != 'true'
-      run: pipx install poetry==${{ env.poetry_version }}
-      shell: bash
-
-    - name: Print pipx and poetry location
-      run: |
-        echo "pipx location: $(which pipx)"
-        echo "poetry location: $(which poetry)"
-      shell: bash
-
-    - name: Add poetry to PATH
-      run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-      shell: bash
-
-    - name: Configure Poetry
-      run: poetry config virtualenvs.in-project true
-      shell: bash
+      uses: snok/install-poetry@v1
+      with:
+        version: ${{ env.poetry_version }}
+        virtualenvs-create: true
+      virtualenvs-in-project: true
 
     - name: Set python version
       run: poetry env use python
       shell: bash
 
-    - name: Cache Poetry Dependencies
+    - name: Cache poetry dependencies
       id: cache-poetry-dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
-          ~/.local
-          **/poetry.lock
           .venv
         key: ${{ runner.os }}-poetry-dependencies-${{ hashFiles('**/pyproject.toml') }}
 
