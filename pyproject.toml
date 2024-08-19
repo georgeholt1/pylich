@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pylich"
-version = "0.1.0"
+version = "0.2.0"
 description = "A super simple Python utility to check for dead links in a website"
 authors = ["George Holt <george_holt77@yahoo.co.uk>"]
 readme = "README.md"
@@ -19,6 +19,9 @@ pre-commit = "^3.8.0"
 pytest = "^8.3.2"
 requests-mock = "^1.12.1"
 coverage = "^7.6.1"
+
+[tool.poetry.scripts]
+pylich = "pylich.cli:main"
 
 [build-system]
 requires = ["poetry-core"]

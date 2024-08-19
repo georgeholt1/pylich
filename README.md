@@ -9,24 +9,25 @@ A super simple Python utility to check for dead links in a website.
 
 ## Installation
 
-
-### From PyPI
+PyLich is available on [PyPI](https://pypi.org/project/pylich/) and can be installed using [pip](https://pip.pypa.io/en/stable/):
 
 ```bash
 pip install pylich
 ```
 
-### From source
-
-Clone the repository and run the following command:
-
-```bash
-pip install .
-```
-
 ## Usage
 
-Simply provide the URL of the sitemap and `pylich` will crawl through links in the pages and check their status.
+Simply provide the URL of the sitemap and `pylich` will crawl through links in the pages and check their status. `pylich` can be used as a command line tool or as a Python package.
+
+### Command Line
+
+```bash
+pylich https://www.example.com/sitemap.xml -v
+```
+
+The `-v` verbosity flag is optional and will print progress to the console as well as a summary of the dead links at the end. The command will exit with a status code of 1 if any dead links are found and 0 otherwise.
+
+### Python Package
 
 ```python
 from pylich import LinkChecker
@@ -52,7 +53,7 @@ To run the tests, run:
 pytest
 ```
 
-Pre-commit hooks are available:
+Pre-commit hooks are available to run code formatting and linting. To install the hooks, run:
 
 ```bash
 pre-commit install
