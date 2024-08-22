@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pylich"
-version = "0.2.0"
+version = "0.3.0"
 description = "A super simple Python utility to check for dead links in a website"
 authors = ["George Holt <george_holt77@yahoo.co.uk>"]
 readme = "README.md"
