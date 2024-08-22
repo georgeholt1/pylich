@@ -22,16 +22,33 @@ Simply provide the URL of the sitemap and `pylich` will crawl through links in t
 ### Command Line
 
 ```bash
-pylich https://www.example.com/sitemap.xml -v
+pylich https://www.example.com/sitemap.xml
 ```
 
-The `-v` verbosity flag is optional and will print progress to the console as well as a summary of the dead links at the end. The command will exit with a status code of 1 if any dead links are found and 0 otherwise.
+The command will exit with a status code of 1 if any dead links are found and 0 otherwise.
+
+#### Options
+
+| Flag | Arguments | Description |
+| --- | --- | --- |
+| `-v` | N/A | Verbose mode. Print progress to the console as well as a summary of the dead links at the end. |
+| `-i` | List of integer HTTP response codes | Ignore links with the specified HTTP response codes. |
+
+```bash
+pylich https://www.example.com/sitemap.xml -v -i 404 500
+```
 
 ### Python Package
 
+PyLich can also be used as a Python package. 
+
 ```python
 from pylich import LinkChecker
-checker = LinkChecker("https://www.example.com/sitemap.xml", verbose=True)
+checker = LinkChecker(
+    "https://www.example.com/sitemap.xml",
+    verbose=True,
+    ignored_status_codes=[404, 500]
+)
 urls = checker.get_sitemap_urls()
 broken_links = checker.check_links(urls)
 checker.print_dead_links()
