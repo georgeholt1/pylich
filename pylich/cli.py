@@ -37,7 +37,7 @@ def main():
 
         if broken_links:
             if args.verbose:
-                print("Broken links found:")
+                print("Broken links found.")
                 checker.print_dead_links()
             sys.exit(1)
         else:
