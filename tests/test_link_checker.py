@@ -29,6 +29,7 @@ def page_content():
     <body>
         <a href="http://example.com/broken_link">Broken Link</a>
         <a href="http://example.com/working_link">Working Link</a>
+        <a href="http://example.com/ignored_link">Ignored Link</a>
     </body>
     </html>
     """
@@ -56,14 +57,22 @@ def test_check_links(
     requests_mock.get("http://example.com/page2", text=page_content)
     requests_mock.get("http://example.com/broken_link", status_code=404)
     requests_mock.get("http://example.com/working_link", status_code=200)
+    requests_mock.get("http://example.com/ignored_link", status_code=403)
 
-    checker = LinkChecker(sitemap_url, verbose=True)
+    checker = LinkChecker(
+        sitemap_url, verbose=True, ignored_status_codes=[403]
+    )
     urls = checker.get_sitemap_urls()
     broken_links = checker.check_links(urls)
 
     assert broken_links == [
         ("http://example.com/page1", "http://example.com/broken_link", 404),
         ("http://example.com/page2", "http://example.com/broken_link", 404),
+    ]
+
+    assert checker.ignored_links == [
+        ("http://example.com/page1", "http://example.com/ignored_link", 403),
+        ("http://example.com/page2", "http://example.com/ignored_link", 403),
     ]
 
 
@@ -106,8 +115,11 @@ def test_print_dead_links(
     requests_mock.get("http://example.com/page2", text=page_content)
     requests_mock.get("http://example.com/broken_link", status_code=404)
     requests_mock.get("http://example.com/working_link", status_code=200)
+    requests_mock.get("http://example.com/ignored_link", status_code=403)
 
-    checker = LinkChecker(sitemap_url, verbose=True)
+    checker = LinkChecker(
+        sitemap_url, verbose=True, ignored_status_codes=[403]
+    )
     urls = checker.get_sitemap_urls()
     checker.check_links(urls)
     checker.print_dead_links()
@@ -124,6 +136,17 @@ def test_print_dead_links(
         "Page URL: http://example.com/page2\n"
         "Broken Link: http://example.com/broken_link\n"
         "Status Code: 404" in captured.out
+    )
+    assert "Ignored links:" in captured.out
+    assert (
+        "Page URL: http://example.com/page1\n"
+        "Ignored Link: http://example.com/ignored_link\n"
+        "Status Code: 403" in captured.out
+    )
+    assert (
+        "Page URL: http://example.com/page2\n"
+        "Ignored Link: http://example.com/ignored_link\n"
+        "Status Code: 403" in captured.out
     )
 
 

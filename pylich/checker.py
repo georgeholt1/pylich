@@ -16,13 +16,17 @@ class LinkChecker:
     verbose : bool, optional
         Whether to print detailed information during the link checking process.
         Default is False.
+    ignored_status_codes : list of int, optional
+        A list of HTTP status codes that will be ignored. Default is None.
     """
 
-    def __init__(self, sitemap_url, verbose=False):
+    def __init__(self, sitemap_url, verbose=False, ignored_status_codes=None):
         self.sitemap_url = sitemap_url
         self.verbose = verbose
+        self.ignored_status_codes = ignored_status_codes or []
         self.urls = []
         self.dead_links = []
+        self.ignored_links = []
 
     def get_sitemap_urls(self):
         """
@@ -76,13 +80,17 @@ class LinkChecker:
         broken_link, status_code).
         """
         self.dead_links = []
+        self.ignored_links = []
         total_urls = len(urls)
         for idx, url in enumerate(urls):
             if self.verbose:
                 print(f"Checking URL {idx + 1}/{total_urls}: {url}")
             response = requests.get(url)
             if response.status_code != 200:
-                self.dead_links.append((url, url, response.status_code))
+                if response.status_code in self.ignored_status_codes:
+                    self.ignored_links.append((url, url, response.status_code))
+                else:
+                    self.dead_links.append((url, url, response.status_code))
                 continue
 
             soup = BeautifulSoup(response.content, "html.parser")
@@ -92,9 +100,14 @@ class LinkChecker:
                     href = urljoin(url, href)
                 link_response = requests.get(href)
                 if link_response.status_code != 200:
-                    self.dead_links.append(
-                        (url, href, link_response.status_code)
-                    )
+                    if link_response.status_code in self.ignored_status_codes:
+                        self.ignored_links.append(
+                            (url, href, link_response.status_code)
+                        )
+                    else:
+                        self.dead_links.append(
+                            (url, href, link_response.status_code)
+                        )
 
         if self.verbose:
             print(f"Completed checking {total_urls} URLs.")
@@ -114,4 +127,11 @@ class LinkChecker:
             for page_url, broken_link, status_code in self.dead_links:
                 print(f"Page URL: {page_url}")
                 print(f"Broken Link: {broken_link}")
+                print(f"Status Code: {status_code}\n")
+
+        if self.ignored_links:
+            print("Ignored links:\n")
+            for page_url, broken_link, status_code in self.ignored_links:
+                print(f"Page URL: {page_url}")
+                print(f"Ignored Link: {broken_link}")
                 print(f"Status Code: {status_code}\n")
