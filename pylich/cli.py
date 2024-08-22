@@ -16,11 +16,21 @@ def main():
         action="store_true",
         help="Increase output verbosity",
     )
+    parser.add_argument(
+        "-i",
+        "--ignore-status-codes",
+        type=int,
+        nargs="*",
+        default=[],
+        help="List of HTTP status codes to ignore",
+    )
     args = parser.parse_args()
 
     try:
         checker = LinkChecker(
-            sitemap_url=args.sitemap_url, verbose=args.verbose
+            sitemap_url=args.sitemap_url,
+            verbose=args.verbose,
+            ignored_status_codes=args.ignore_status_codes,
         )
         urls = checker.get_sitemap_urls()
         broken_links = checker.check_links(urls)
@@ -32,7 +42,10 @@ def main():
             sys.exit(1)
         else:
             if args.verbose:
-                print("No broken links found")
+                if checker.ignored_links:
+                    checker.print_dead_links()
+                else:
+                    print("No broken links found")
             sys.exit(0)
     except Exception as e:
         print(f"Error: {e}")
