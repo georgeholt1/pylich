@@ -128,23 +128,23 @@ def test_print_dead_links(
     print(captured.out)
     assert "Dead links:" in captured.out
     assert (
-        "Page URL: http://example.com/page1\n"
+        "Sitemap page URL: http://example.com/page1\n"
         "Broken Link: http://example.com/broken_link\n"
         "Status Code: 404" in captured.out
     )
     assert (
-        "Page URL: http://example.com/page2\n"
+        "Sitemap page URL: http://example.com/page2\n"
         "Broken Link: http://example.com/broken_link\n"
         "Status Code: 404" in captured.out
     )
     assert "Ignored links:" in captured.out
     assert (
-        "Page URL: http://example.com/page1\n"
+        "Sitemap page URL: http://example.com/page1\n"
         "Ignored Link: http://example.com/ignored_link\n"
         "Status Code: 403" in captured.out
     )
     assert (
-        "Page URL: http://example.com/page2\n"
+        "Sitemap page URL: http://example.com/page2\n"
         "Ignored Link: http://example.com/ignored_link\n"
         "Status Code: 403" in captured.out
     )
