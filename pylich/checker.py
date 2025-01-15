@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
+from urllib.error import HTTPError
 from urllib.parse import urljoin
 from urllib.request import urlopen
-from urllib.error import HTTPError
 
 import requests
 from bs4 import BeautifulSoup
