@@ -1,5 +1,7 @@
 import xml.etree.ElementTree as ET
 from urllib.parse import urljoin
+from urllib.request import urlopen
+from urllib.error import HTTPError
 
 import requests
 from bs4 import BeautifulSoup
@@ -95,19 +97,19 @@ class LinkChecker:
 
             soup = BeautifulSoup(response.content, "html.parser")
             for link in soup.find_all("a", href=True):
+                if self.verbose:
+                    print(f"   Checking link: {link['href']}")
                 href = link["href"]
                 if not href.startswith(("http://", "https://")):
                     href = urljoin(url, href)
-                link_response = requests.get(href)
-                if link_response.status_code != 200:
-                    if link_response.status_code in self.ignored_status_codes:
-                        self.ignored_links.append(
-                            (url, href, link_response.status_code)
-                        )
+
+                try:
+                    urlopen(href)
+                except HTTPError as e:
+                    if e.code in self.ignored_status_codes:
+                        self.ignored_links.append((url, href, e.code))
                     else:
-                        self.dead_links.append(
-                            (url, href, link_response.status_code)
-                        )
+                        self.dead_links.append(((url, href, e.code)))
 
         if self.verbose:
             print(f"Completed checking {total_urls} URLs.")
