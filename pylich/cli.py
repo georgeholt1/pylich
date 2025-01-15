@@ -24,6 +24,11 @@ def main():
         default=[],
         help="List of HTTP status codes to ignore",
     )
+    parser.add_argument(
+        "--failed-is-dead",
+        action="store_true",
+        help="Treat failed requests as dead links",
+    )
     args = parser.parse_args()
 
     try:
@@ -31,6 +36,7 @@ def main():
             sitemap_url=args.sitemap_url,
             verbose=args.verbose,
             ignored_status_codes=args.ignore_status_codes,
+            failed_is_dead=args.failed_is_dead,
         )
         urls = checker.get_sitemap_urls()
         broken_links = checker.check_links(urls)

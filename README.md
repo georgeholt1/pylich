@@ -33,6 +33,7 @@ The command will exit with a status code of 1 if any dead links are found and 0 
 | --- | --- | --- |
 | `-v` | N/A | Verbose mode. Print progress to the console as well as a summary of the dead links at the end. |
 | `-i` | List of integer HTTP response codes | Ignore links with the specified HTTP response codes. |
+| `--failed-is-dead` | N/A | Treat any failed HTTP request as a dead link, regardless of the HTTP status code. |
 
 ```bash
 pylich https://www.example.com/sitemap.xml -v -i 404 500
